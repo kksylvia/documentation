@@ -2,11 +2,29 @@
 Use different units of measure
 ==============================
 
+<<<<<<< HEAD
 In some cases, handling products in different units of measure is necessary. For example, a
 business can buy products from a country that uses the metric system, and then sell those products
 in a country that uses the imperial system, so the business needs to convert the units. Another
 case for unit conversion is when a business buys products in a big pack from a supplier and then
 sells those products in individual units.
+||||||| parent of 638e84c6f (temp)
+In some cases, handling products in different units of measure is
+necessary. For example, if you buy products in a country where the
+metric system is of application and sell in a country where the imperial
+system is used, you will need to convert the units. Another common use
+case is buying products in bigger packs to your supplier and selling
+them in units to your customers.
+=======
+.. _inventory/management/products/units_of_measure:
+
+In some cases, handling products in different units of measure is
+necessary. For example, if you buy products in a country where the
+metric system is of application and sell in a country where the imperial
+system is used, you will need to convert the units. Another common use
+case is buying products in bigger packs to your supplier and selling
+them in units to your customers.
+>>>>>>> 638e84c6f (temp)
 
 Odoo can be set up to use different units of measure for one product.
 
