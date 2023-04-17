@@ -86,3 +86,22 @@ static: $(HTML_BUILD_DIR)/_static/style.css
 
 test:
 	@python tests/main.py $(SOURCE_DIR)/administration $(SOURCE_DIR)/applications $(SOURCE_DIR)/contributing $(SOURCE_DIR)/developer $(SOURCE_DIR)/services redirects
+<<<<<<< HEAD
+||||||| parent of eb4abd92c (temp)
+
+# Similar as `test`, but called only manually by content reviewers to trigger extra checks.
+review:
+	@read -p "Enter content path: " path; read -p "Enter max line length (default: 100): " line_length; \
+	if [ -z "$$path" ]; then echo "Error: Path cannot be empty"; exit 1; fi; \
+	if [ -z "$$line_length" ]; then line_length=100; fi; \
+	python tests/main.py -e line-too-long -e early-line-breaks --max-line-length=$$line_length $(SOURCE_DIR)/$$path
+=======
+
+# Similar as `test`, but called only manually by content reviewers to trigger extra checks.
+review:
+	@read -p "Enter content path: " path; read -p "Enter max line length (default: 100): " line_length; \
+	if [ -z "$$path" ]; then echo "Error: Path cannot be empty"; exit 1; fi; \
+	if [ -z "$$line_length" ]; then line_length=100; fi; \
+	export REVIEW=1; \
+	python tests/main.py --max-line-length=$$line_length $(SOURCE_DIR)/$$path
+>>>>>>> eb4abd92c (temp)
