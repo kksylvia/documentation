@@ -2,6 +2,8 @@
 When Should you Use Packages, Units of Measure or Special Packaging?
 ====================================================================
 
+.. _inventory/products/uom-example:
+
 Units of measure
 ================
 

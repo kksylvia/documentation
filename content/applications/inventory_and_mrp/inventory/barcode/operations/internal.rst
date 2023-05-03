@@ -33,6 +33,8 @@ with the stock moves.
         If you have different storage locations in your warehouse, you can add
         additional steps for the different operation types.
 
+.. _barcode/operations/scan-received-products:
+
 Receipts
 ========
 
