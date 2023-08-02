@@ -9,4 +9,5 @@ VoIP (Voice over Internet Protocol)
 
    voip/asterisk
    voip/onsip
-   voip/axivox
+   voip/axivox_config
+
