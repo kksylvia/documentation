@@ -99,6 +99,97 @@ Printer`. Follow the steps and select the *make* and *model* corresponding to th
    Epson and Star receipt printers and Zebra label printers do not need a driver to work. Make sure
    that no driver is selected for those printers.
 
+Epson special case
+~~~~~~~~~~~~~~~~~~
+
+When printing a receipt with an Epson printer, the command that we use is called `GS v 0`.
+Its documentation is at:
+https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=94
+
+However, some Epson printers models do not support this command, like:
+ - TM-U220
+ - TM-U230
+ - TM-P60
+ - TMP-P60II
+
+If you have one of this printer model, you will have to do a particular manipulation in order to use
+another command; `ESC *`, documentation:
+https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=88
+
+.. spoiler:: IoT-box manipulation to force using `ESC *`
+
+    #. First, check if your printer is incompatible with `GS v 0` but is compatible with `ESC *`. Otherwise
+       this manipulation have no point.
+    #. Go on the IoT-box homepage
+    #. Click the "Printers server" button. This should redirect you to CUPS page
+    #. Go to Administration / Printers / Add Printer
+    #. Choose the printer that you want to modify. It might be listed as "Unknown". Then "Continue"
+
+    .. tip::
+        If you are not sure what printer it is:
+
+         #. Take note of the printer on the page
+         #. Turn the printer off and refresh the page
+         #. Compare with the first list to see which printer disappear
+         #. Turn the printer back on
+         #. Refresh the page again and double check if it re-appear
+
+    6. CUPS should ask you 3 information, the Name, Description and Location. The last 2 two does
+       not matter in our case, but the Name should match a certain matter in order to use `ESC *`.
+       The Name should match this convention:
+       `<printer_name>__IMC_<param_1>_<param_2>_..._<param_n>__`
+       Where:
+
+        - `printer_name`: is the printer name. It can be any printable you want as long as it does not
+          contains `__`, `/`, `#`, or ` ` (space character)
+        - `IMC`: stands for Image Mode Column (the simplified name for `ESC *` )
+        - `param_i`: specific parameter:
+
+          - `SCALE<X>`: Scale of the picture (with the same aspect ratio). `X` should be an integer
+            describing the scale percentage that should be used. E.g: `100` is the original size,
+            `50` is half the size, `200` is twice the size.
+          - `LDV`: Low Density Vertical (will be set to High Density Vertical if not specified)
+          - `LDH`: Low Density Horizontal (will be set to High Density Horizontal if not specified)
+
+        .. note::
+           "Density" parameters might need to be configured in a certain way depending on the printer
+           model. Go to:
+           https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=88
+           and click on your model printer in the table above to see if your printer should set this
+           parameters
+
+       .. example::
+            GOOD:
+             - `EPSONTMm30II__IMC__`
+             - `EPSON_TM_U220__IMC_LDV_LDH_SCALE80__`
+
+            BAD (will not prevent to print, but might not have the expected printed output):
+             - `EPSON TMm 30II` -> The name can't have spaces
+             - `EPSONTMm30II` -> The name itself is correct, but it won't use `ESC *`
+             - `EPSONTMm30II__IMC` -> missing the end `__`
+             - `EPSONTMm30II__IMC_XDV__` -> the parameter `XDV` does not match any existing parameters
+             - `EPSONTMm30II__IMC_SCALE__` -> the parameter `SCALE` is missing the scale value
+
+       When you are done, click "Continue"
+    7. Set/Make sure that the "Make" value is "Raw"
+    #. For the "Model", this should be set as "Raw Queue (en)". Make sure the option is selected
+    #. Click "Add Printer". If everything was done correctly, you should be on the "Banners" page.
+       At this point the printer should have been created, we just have to wait for the IoT to
+       detect it and then to sync it on the Odoo's server (could take a few minutes).
+    #. Once visible on Odoo's side, don't forget to choose it in your PoS configuration as the
+       IoT printer
+
+    .. note::
+       If you did set the printer incorrectly (still printing random text or the printed receipt is
+       too big or small). You can NOT modify a printer name with CUPS, but you can repeat the
+       instructions from scratch to create a new printer with modified parameters
+
+    .. example::
+       As a tutorial, let's follow each step with a TM-U220B printer model.
+
+        **TODO** Add a complete tutorial/example with the TM-U22B printer model ?
+
+
 The Zebra printer doesn't print anything
 ----------------------------------------
 
