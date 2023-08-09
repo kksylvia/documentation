@@ -94,7 +94,7 @@ Create a template and ensure the template file is registered in the
 ``__manifest__.py`` manifest, and alter the controller to use our template:
 
 .. code-block:: python
-    :caption: ``academy/controllers.py``
+    :caption: ``academy/controllers/main.py``
 
     class Academy(http.Controller):
 
@@ -105,7 +105,7 @@ Create a template and ensure the template file is registered in the
             })
 
 .. code-block:: xml
-    :caption: ``academy/templates.xml``
+    :caption: ``academy/views/templates.xml``
 
     <odoo>
 
